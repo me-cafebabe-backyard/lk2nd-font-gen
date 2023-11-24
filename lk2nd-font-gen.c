@@ -102,8 +102,8 @@ int main()
     unsigned int output1, output2;
 
 #if 0
-    print_font_half(0x1108c5c0); // 1, right
-    print_font_half(0x000f8444); // 2, left
+    print_font_half(0x084210c0); // 1, left
+    print_font_half(0x00071084); // 2, right
     return 0;
 #endif
 
@@ -125,7 +125,7 @@ int main()
     make_half_font(font_half_2_layout, &output2);
 
     printf("Data:\n");
-    printf("    0x%08x, 0x%08x,\n", output2, output1);
+    printf("    0x%08x, 0x%08x,\n", output1, output2);
 
     printf("Validate:\n");
     print_border();
