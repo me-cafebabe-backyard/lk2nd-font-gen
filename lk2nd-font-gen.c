@@ -50,16 +50,14 @@ void print_border(void)
 void print_font_half(unsigned int font_half)
 {
     int x = 0, y = 0, shift = 0, display = 0;
-    unsigned int valid_bits = (UINT_MAX & (FONT_X * FONT_Y_HALF));
 
-    shift = valid_bits;
     for (y = 0; y < FONT_Y_HALF; y++) {
 #ifndef DEBUG_PRINT_BINARY
         putchar('|');
 #endif
         for (x = 0; x < FONT_X; x++) {
-            shift--;
             display = (font_half >> shift) & 1;
+            shift++;
 
 #ifdef DEBUG_PRINT_BINARY
             if (display)
@@ -87,16 +85,14 @@ void print_font_half(unsigned int font_half)
 void make_half_font(const unsigned int layout[], unsigned int *output)
 {
     unsigned int x = 0, y = 0, shift = 0, it = 0;
-    unsigned int valid_bits = (UINT_MAX & (FONT_X * FONT_Y_HALF));
     *output = 0;
 
-    shift = valid_bits;
     for (y = 0; y < FONT_Y_HALF; y++) {
         for (x = 0; x < FONT_X; x++) {
-            shift--;
             it = (FONT_X * y) + x;
             if (layout[it])
                 *output |= (1 << shift);
+            shift++;
         }
     }
 }
@@ -105,9 +101,9 @@ int main()
 {
     unsigned int output1, output2;
 
-#if 1
-    print_font_half(0x000f8444); // 1, right
-    print_font_half(0x1108c5c0); // 2, left
+#if 0
+    print_font_half(0x1108c5c0); // 1, right
+    print_font_half(0x000f8444); // 2, left
     return 0;
 #endif
 
@@ -131,7 +127,7 @@ int main()
     printf("Data:\n");
     printf("    0x%08x, 0x%08x,\n", output2, output1);
 
-    printf("Verify:\n");
+    printf("Validate:\n");
     print_border();
     print_font_half(output1);
     print_font_half(output2);
